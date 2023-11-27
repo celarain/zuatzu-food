@@ -28,5 +28,5 @@ if __name__ == "__main__":
     menu_data = format_data_as_markdown(get_menu())
     menu_data = str(menu_data)
     menu = "```RESTAURANTE IÑAUSTI " + datetime.now().strftime('%d/%m/%Y') + " - 943 31 39 33```\n" + menu_data + "\n\n"
-    #enviar_mensaje_google_chat(menu, "inausti")
+    enviar_mensaje_google_chat(menu, "inausti")
     print("Fin inausti")
