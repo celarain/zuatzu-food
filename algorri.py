@@ -10,18 +10,23 @@ def get_menu():
     html = BeautifulSoup(response.content, "html.parser")
     platos = {}
     current_bloque = None
+    menu_iniciado = False
 
     for plato_tag in html.find_all("div", class_="list-group-item"):
         for tag in plato_tag.find_all(["span"]):
             text = tag.get_text().strip().upper()
-            if tag.find_all(["strong"]) and 'font-size: 18.6667px;' in tag.get('style') and text not in 'MENÚ ALGORRI EN LA OFICINA:':
-                current_bloque = text
-                if current_bloque not in platos:
-                    platos[current_bloque] = []
-                    continue
-            else:
-                if current_bloque is not None and '€' not in text and '$' not in text:
-                    platos[current_bloque].append(text)
+            if 'MENÚ ALGORRI EN LA OFICINA:' in text:
+                menu_iniciado = True
+                continue
+            if menu_iniciado:
+                if tag.find_all(["strong"]) and 'font-size: 18.6667px;' in tag.get('style'):
+                    current_bloque = text
+                    if current_bloque not in platos:
+                        platos[current_bloque] = []
+                        continue
+                else:
+                    if current_bloque is not None and '€' not in text and '$' not in text:
+                        platos[current_bloque].append(text)
     return platos
 
 if __name__ == "__main__":
